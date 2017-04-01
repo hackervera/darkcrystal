@@ -1,0 +1,62 @@
+.sidebar {
+    width: 20%;
+    background-color: white;
+    color: black;
+    text-align: center;
+    height: 100%;
+    position: fixed;
+    padding: 5px;
+}
+.main-body {
+    background-color: black;
+    color: white;
+    height: 100%;
+    vertical-align: top;
+    margin-left: 85px;
+    padding-left: 20%;
+    padding-top: 50px;
+}
+.sub-title {
+    color: #777;
+}
+.posts {
+    margin-top: 100px;
+}
+.posts .post {
+    border-bottom: 1px solid #777;
+    padding-left: 85px;
+    padding-bottom: 20px;
+    margin-bottom: 70px;
+    max-width: 800px;
+}
+.posts img {
+    max-width: 64px;
+    background-color: white;
+}
+.posts .avatar {
+    position: absolute;
+    margin-left: -85px;
+}
+.site-title {
+    border-bottom: 1px solid #777;
+    padding-bottom: 25px;
+}
+.site-links {
+    padding-top: 20px;
+}
+.site-links div {
+    padding-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+body {
+    margin: 0;
+    background-color: black;
+    font-family: 'Roboto', sans-serif;
+}

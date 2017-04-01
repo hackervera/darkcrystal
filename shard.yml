@@ -1,0 +1,19 @@
+name: status
+version: 0.1.0
+
+authors:
+  - Tyler Gillies <tjgillies@gmail.com>
+
+targets:
+  status:
+    main: src/status.cr
+
+crystal: 0.21.1+33
+
+license: MIT
+
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+    branch: master
