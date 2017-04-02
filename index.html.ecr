@@ -1,11 +1,11 @@
-<link rel="stylesheet" href="css/mfglabs_iconset.css">
+<link rel="stylesheet" href="/css/mfglabs_iconset.css">
 <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:500|Roboto:400,500" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
-<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="/css/app.css">
 
 
 <div class="sidebar">
-    <img src="images/crystal.svg" alt="">
+    <img src="/images/crystal.svg" alt="">
     <div class="site-title">
         <h1>DarkCrystal</h1>
         <div class="sub-title">
@@ -19,7 +19,16 @@
 </div>
 <div class="main-body">
 
-    <% if current_user %>
+    <% if (current_user = @current_user) && (current_post = @current_post) %>
+        <form class="pure-form pure-form-stacked" action="/edit/<%= current_post["id"] %>" method="POST">
+            <input class="pure-input-1" name="title" type="text" placeholder="Tile goes here" value="<%= current_post["title"] %>">
+            <div>Today - by <%= current_user.name %></div>
+            <textarea class="pure-input-1" name="body" placeholder="Enter status body. Parses Markdown input"><%= current_post["body"] %></textarea>
+            <div class="submit-buttons">
+                <input type="submit" class="pure-button  send-cancel" value="Cancel"> <input type="submit" vaue="Send" class="pure-button">
+            </div>
+        </form>        
+    <% elsif current_user = @current_user %>
         <form class="pure-form pure-form-stacked" action="/submit" method="POST">
             <input class="pure-input-1" name="title" type="text" placeholder="Tile goes here">
             <div>Today - by <%= current_user.name %></div>
@@ -33,7 +42,7 @@
     <% end %>
 
     <div class="posts">
-        <% posts.each do |post| %>
+        <% @posts.each do |post| %>
             <div class="post">
                 <div class="avatar"><img src=<%= post[:img] %>></div>
                 <div><%= post[:title] %></div>
@@ -42,7 +51,7 @@
                 <% if current_user && current_user.id == post[:author_id] %>
                     <div class="post-buttons">
                         <a class="button-error pure-button" href="/delete/<%= post[:id] %>">Delete</a>
-                        <a class="button-secondary pure-button" href="/edit">Edit</a>
+                        <a class="button-secondary pure-button" href="/edit/<%= post[:id] %>">Edit</a>
                     </div>
                 <% end %>
             </div>

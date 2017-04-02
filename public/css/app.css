@@ -53,8 +53,11 @@ a {
 .main-body textarea {
     height: 20%;
 }
-.pure-button.send {
+.submit-buttons {
     float: right;
+}
+.send-cancel {
+    background: indianred;
 }
 input, textarea {
     color: black;
