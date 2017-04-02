@@ -63,6 +63,15 @@ input, textarea {
     max-width: 650px;
 }
 
+.button-secondary {
+    background: #777;
+}
+.button-error {
+    background: indianred;
+}
+.post-buttons {
+    float: right;
+}
 
 body {
     margin: 0;

@@ -34,15 +34,41 @@ end
 
 get "/" do |env|
   # env.session.object("current_user", User.new("","Test user", 42))
+  current_user = env.session.object?("current_user")
   DB.open ENV["DATABASE_URL"] do |db|
-    db.query "select img, name, body, title, posts.id from users,posts where posts.author_id = users.id order by posts.created_at desc" do |rs|
+    db.query "select img, name, body, title, posts.id, users.id from users,posts where posts.author_id = users.id order by posts.created_at desc" do |rs|
       posts = [] of Hash(Symbol, String | Int32)
       rs.each do 
-        posts << {:img => rs.read(String), :name => rs.read(String), :body => rs.read(String), :title => rs.read(String), :id => rs.read(Int32)}
+        posts << {
+          :img => rs.read(String), 
+          :name => rs.read(String), 
+          :body => rs.read(String), 
+          :title => rs.read(String), 
+          :id => rs.read(Int32),
+          :author_id => rs.read(Int32)
+        }
       end  
       render "index.html.ecr"
     end
   end
+end
+
+get "/delete/:id" do |env|
+  post_id = env.params.url["id"]
+  
+  current_user = env.session.object("current_user")
+  DB.open ENV["DATABASE_URL"] do |db|
+    db.query "select posts.id from posts,users where posts.id = $1 and posts.author_id = $2", post_id, current_user.id do |rs|
+      puts "looking for post"
+      rs.each do
+        if post_id = rs.read(Int32|Nil)
+          puts "got post id"
+          db.exec "delete from posts where id = $1", post_id
+        end
+      end
+    end
+  end
+  env.redirect "/"
 end
 
 post "/submit" do |env|
