@@ -75,6 +75,9 @@ input, textarea {
 .post-buttons {
     float: right;
 }
+.post-header a {
+    text-decoration: none;
+}
 
 body {
     margin: 0;

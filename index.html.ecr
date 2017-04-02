@@ -50,8 +50,10 @@
         <% @posts.each do |post| %>
             <div class="post">
                 <div class="avatar"><img src=<%= post[:img] %>></div>
-                <div><a href="/updates/<%= post[:id] %>"><%= post[:title] %></a></div>
-                <div>By <a href="http://github.com/<%= post[:name] %>"><%= post[:name] %></a></div>
+                <div class="post-header">
+                    <div><a href="/updates/<%= post[:id] %>"><%= post[:title] %></a></div>
+                    <div>By <a href="http://github.com/<%= post[:name] %>"><%= post[:name] %></a></div>
+                </div>
                 <div><%= post[:body] %></div>
                 <% if current_user && current_user.id == post[:author_id] %>
                     <div class="post-buttons">
