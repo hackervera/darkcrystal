@@ -148,5 +148,5 @@ get "/login" do |env|
   env.redirect "/"
 end
 
-Session.config.secret = "sadasdjsadjljk3242342"
+Session.config.secret = ENV["DARK_SECRET"]
 Kemal.run
