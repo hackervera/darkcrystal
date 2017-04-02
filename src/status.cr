@@ -3,7 +3,25 @@ require "db"
 require "pg"
 require "kemal-session"
 require "markdown"
+require "oauth"
+
 Conn = DB.open ENV["DATABASE_URL"]
+TwitterClient = Twitter.new
+class Twitter
+  def initialize
+    @client = HTTP::Client.new("api.twitter.com", tls: true)
+    token = ENV["TWITTER_ACCESS_TOKEN"]
+    token_secret = ENV["TWITTER_ACCESS_TOKEN_SECRET"]
+    consumer = ENV["TWITTER_CONSUMER_KEY"]
+    consumer_secret = ENV["TWITTER_CONSUMER_SECRET"]
+    OAuth.authenticate(@client, token, token_secret, consumer, consumer_secret)
+  end
+
+  def tweet(message)
+    @client.post_form("/1.1/statuses/update.json", {"status" => message})
+  end
+end
+
 
 class Index
   @current_post : Hash(String, String | Int32) | Nil
@@ -42,8 +60,12 @@ struct User
 end
 
 
+get "/tweet/:message" do |env|
+  TwitterClient.tweet(env.params.url["message"])
+end
+
 get "/" do |env|
-puts env.inspect
+  
   Conn.query "select img, name, body, title, posts.id, users.id from users,posts where posts.author_id = users.id order by posts.created_at desc" do |rs|
     posts = [] of Hash(Symbol, String | Int32)
     rs.each do 
@@ -83,7 +105,31 @@ get "/edit/:id" do |env|
   Index.new({"title" => post_title, "body" => post_body, "id" => post_id}, posts, env.session.object?("current_user"))
 end
 
+get "/updates/:id" do |env|
+  current_user = env.session.object?("current_user")
+  post_id = env.params.url["id"]
+  posts = [] of Hash(Symbol, String | Int32)
+  Conn.query "select img, name, body, title, posts.id, users.id from users,posts where posts.author_id = users.id and posts.id = $1", post_id do |rs|
+    rs.each do 
+      posts << {
+        :img => rs.read(String), 
+        :name => rs.read(String), 
+        :body => rs.read(String), 
+        :title => rs.read(String), 
+        :id => rs.read(Int32),
+        :author_id => rs.read(Int32)
+      }
+    end  
+  end
+  if !posts.empty?
+    Index.new(nil, posts, current_user)
+  else
+    env.redirect "/"
+  end
+end
+
 get "/delete/:id" do |env|
+
   post_id = env.params.url["id"]
   
   current_user = env.session.object("current_user")
@@ -100,8 +146,13 @@ end
 
 post "/submit" do |env|
   current_user = env.session.object("current_user")
-  markdown = Markdown.to_html(env.params.body["body"].as(String))
-  Conn.exec "insert into posts values ($1,$2,$3)", current_user.id, markdown, env.params.body["title"]
+  html = Markdown.to_html(env.params.body["body"].as(String))
+  title = env.params.body["title"]
+  post_id = Conn.query_one "insert into posts values ($1,$2,$3) returning id", current_user.id, html, title, as: Int32
+  url = "#{Kemal.config.scheme}://#{env.request.headers["host"]}/updates/#{post_id}"
+  message = "#{title} #{url}"
+  puts message
+  puts TwitterClient.tweet(message).inspect
   env.redirect "/"
 end
 

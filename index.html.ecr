@@ -2,10 +2,10 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:500|Roboto:400,500" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
 <link rel="stylesheet" href="/css/app.css">
-
+<title>Dark Crystal</title>
 
 <div class="sidebar">
-    <img src="/images/crystal.svg" alt="">
+    <a href="/"><img src="/images/crystal.svg" alt=""></a>
     <div class="site-title">
         <h1>DarkCrystal</h1>
         <div class="sub-title">
@@ -50,7 +50,7 @@
         <% @posts.each do |post| %>
             <div class="post">
                 <div class="avatar"><img src=<%= post[:img] %>></div>
-                <div><%= post[:title] %></div>
+                <div><a href="/updates/<%= post[:id] %>"><%= post[:title] %></a></div>
                 <div>By <%= post[:name] %></div>
                 <div><%= post[:body] %></div>
                 <% if current_user && current_user.id == post[:author_id] %>
