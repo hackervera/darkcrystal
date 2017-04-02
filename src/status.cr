@@ -186,7 +186,7 @@ get "/login" do |env|
   resp = HTTP::Client.get("https://api.github.com/user?access_token=#{access_token}")
   puts resp.body
   user_data = JSON.parse(resp.body)
-  name = user_data["name"].as_s
+  name = user_data["login"].as_s
   id = user_data["id"].as_i
   img = user_data["avatar_url"].as_s
 
