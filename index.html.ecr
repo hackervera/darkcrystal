@@ -14,7 +14,7 @@
     </div>
     <div class="site-links">
         <div><a href="http://kemalcr.com/">Running on Kemal</a></div>
-        <div><a href="https://github.com/tjgillies/darkcrystal">Open Source</a></div>
+        <div><a href="https://github.com/tjgillies/darkcrystal">Open Source on Github</a></div>
         <% if current_user = @current_user %>
             <div class="signout">
                 <a href="/signout" class="pure-button">Sign out</a>
@@ -51,7 +51,7 @@
             <div class="post">
                 <div class="avatar"><img src=<%= post[:img] %>></div>
                 <div><a href="/updates/<%= post[:id] %>"><%= post[:title] %></a></div>
-                <div>By <%= post[:name] %></div>
+                <div>By <a href="http://github.com/<%= post[:name] %>"><%= post[:name] %></a></div>
                 <div><%= post[:body] %></div>
                 <% if current_user && current_user.id == post[:author_id] %>
                     <div class="post-buttons">
