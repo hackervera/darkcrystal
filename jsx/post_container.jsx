@@ -20,18 +20,17 @@ class PostContainer extends React.Component {
   }
   handleData(data) {
     data = JSON.parse(data)
-    console.log(typeof(data))
-    data.map(num => console.log("num"))
-    // this.setState({arr: data})
+    this.setState({posts: data})
   }
   render() {
     return (
       <div>
         <div className="posts">
       {this.state.posts.map(post =>  
-        <div key={post.key} className="post">
+        <div key={post.id} className="post">
           <div className="avatar"><img src={post.img}/></div>
-          <h1>{post.title}</h1>
+          <div>{post.title}</div>
+          <div>By {post.name}</div>
           <div>{post.body}</div>
         </div>)
       }

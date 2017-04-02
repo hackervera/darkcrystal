@@ -1,8 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -41,11 +39,7 @@ var PostContainer = function (_React$Component) {
     key: 'handleData',
     value: function handleData(data) {
       data = JSON.parse(data);
-      console.log(typeof data === 'undefined' ? 'undefined' : _typeof(data));
-      data.map(function (num) {
-        return console.log("num");
-      });
-      // this.setState({arr: data})
+      this.setState({ posts: data });
     }
   }, {
     key: 'render',
@@ -59,16 +53,22 @@ var PostContainer = function (_React$Component) {
           this.state.posts.map(function (post) {
             return _react2.default.createElement(
               'div',
-              { key: post.key, className: 'post' },
+              { key: post.id, className: 'post' },
               _react2.default.createElement(
                 'div',
                 { className: 'avatar' },
                 _react2.default.createElement('img', { src: post.img })
               ),
               _react2.default.createElement(
-                'h1',
+                'div',
                 null,
                 post.title
+              ),
+              _react2.default.createElement(
+                'div',
+                null,
+                'By ',
+                post.name
               ),
               _react2.default.createElement(
                 'div',

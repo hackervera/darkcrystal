@@ -47,12 +47,21 @@
 .site-links div {
     padding-bottom: 10px;
 }
-
-
-
-
-
-
+a {
+    color: #777;
+}
+.main-body textarea {
+    height: 20%;
+}
+.pure-button.send {
+    float: right;
+}
+input, textarea {
+    color: black;
+}
+.main-body form {
+    max-width: 650px;
+}
 
 
 body {

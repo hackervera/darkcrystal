@@ -1,0 +1,50 @@
+<link rel="stylesheet" href="css/mfglabs_iconset.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono:500|Roboto:400,500" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
+<link rel="stylesheet" href="css/app.css">
+
+
+<div class="sidebar">
+    <img src="images/crystal.svg" alt="">
+    <div class="site-title">
+        <h1>DarkCrystal</h1>
+        <div class="sub-title">
+            Announce your crystal project here.
+        </div>
+    </div>
+    <div class="site-links">
+        <div><a href="http://kemalcr.com/">Running on Kemal</a></div>
+        <div>Open Source</div>
+    </div>
+</div>
+<div class="main-body">
+
+    <% if current_user = env.session.object?("current_user") %>
+        <form class="pure-form pure-form-stacked" action="/submit" method="POST">
+            <input class="pure-input-1" name="title" type="text" placeholder="Tile goes here">
+            <div>Today - by <%= current_user.name %></div>
+            <textarea class="pure-input-1" name="body" placeholder="Enter status body. Parses Markdown input"></textarea>
+            <input type="submit" vaue="Send" class="pure-button send">
+        </form>
+    <% else %>
+        <a href="https://github.com/login/oauth/authorize?client_id=<%= ENV["GITHUB_CLIENT_ID"] %>" class="pure-button">
+            <i class="icon-octopus "></i> Sign in with github
+        </a>
+    <% end %>
+
+    <div class="posts">
+        <% posts.each do |post| %>
+            <div class="post">
+                <div class="avatar"><img src=<%= post[:img] %>></div>
+                <div><%= post[:title] %></div>
+                <div>By <%= post[:name] %></div>
+                <div><%= post[:body] %></div>
+            </div>
+        <% end %>
+    </div>
+
+</div>
+
+
+
+
