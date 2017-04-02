@@ -14,7 +14,12 @@
     </div>
     <div class="site-links">
         <div><a href="http://kemalcr.com/">Running on Kemal</a></div>
-        <div>Open Source</div>
+        <div><a href="https://github.com/tjgillies/darkcrystal">Open Source</a></div>
+        <% if current_user = @current_user %>
+            <div class="signout">
+                <a href="/signout" class="pure-button">Sign out</a>
+            </div>
+        <% end %>
     </div>
 </div>
 <div class="main-body">
@@ -33,7 +38,7 @@
             <input class="pure-input-1" name="title" type="text" placeholder="Tile goes here">
             <div>Today - by <%= current_user.name %></div>
             <textarea class="pure-input-1" name="body" placeholder="Enter status body. Parses Markdown input"></textarea>
-            <input type="submit" vaue="Send" class="pure-button send">
+            <input type="submit" vaue="Send" class="pure-button submit-buttons">
         </form>
     <% else %>
         <a href="https://github.com/login/oauth/authorize?client_id=<%= ENV["GITHUB_CLIENT_ID"] %>" class="pure-button">

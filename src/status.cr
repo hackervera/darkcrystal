@@ -43,7 +43,7 @@ end
 
 
 get "/" do |env|
-  # env.session.object("current_user", User.new("","Test user", 42)) 
+puts env.inspect
   Conn.query "select img, name, body, title, posts.id, users.id from users,posts where posts.author_id = users.id order by posts.created_at desc" do |rs|
     posts = [] of Hash(Symbol, String | Int32)
     rs.each do 
@@ -58,6 +58,11 @@ get "/" do |env|
     end  
     Index.new(nil, posts, env.session.object?("current_user"))
   end
+end
+
+get "/signout" do |env|
+  env.session.destroy
+  env.redirect "/"
 end
 
 get "/edit/:id" do |env|
